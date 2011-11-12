@@ -30,19 +30,14 @@ bool strategie_x(char hrac, char pole[20][20]) {
     struct block souper = find_longest(get_other_player(hrac), pole);
     struct block ja = find_longest(hrac, pole);
 
-    if(ja.x1 == -1) {
-        placni_to_tam_nekam(hrac, 10, 10, pole);
-        return true;
-    }
-
-    if (ja.len >= souper.len ) {
+    if (ja.len >= souper.len && ja.len != 0) {
         if (ja.side == BOTH) {
-            put(hrac, ja.x1 - DIRECTION[ja.direct][1],  ja.y1 - DIRECTION[ja.direct][0], pole);
+            put(hrac, ja.x1 - DIRECTION[ja.direct][0],  ja.y1 - DIRECTION[ja.direct][1], pole);
         }
 
         if (ja.side == ONE) {
-            put(hrac, ja.x1 - DIRECTION[ja.direct][1],  ja.y1 - DIRECTION[ja.direct][0], pole);
-            put(hrac, ja.x1 + (DIRECTION[ja.direct][1]) * ja.len,  ja.y1 + (DIRECTION[ja.direct][0]) * ja.len, pole);
+            put(hrac, ja.x1 - DIRECTION[ja.direct][0],  ja.y1 - DIRECTION[ja.direct][1], pole);
+            put(hrac, ja.x1 + (DIRECTION[ja.direct][0]) * ja.len,  ja.y1 + (DIRECTION[ja.direct][1]) * ja.len, pole);
         }
 
         return true;
@@ -50,24 +45,29 @@ bool strategie_x(char hrac, char pole[20][20]) {
 
     if (souper.len >= 3) {
         if (souper.side == BOTH) {
-            put(hrac, souper.x1 - DIRECTION[souper.direct][1],  ja.y1 - DIRECTION[souper.direct][0], pole);
+            put(hrac, souper.x1 - DIRECTION[souper.direct][0],  souper.y1 - DIRECTION[souper.direct][1], pole);
         }
 
-        if (ja.side == ONE) {
-            put(hrac, souper.x1 - DIRECTION[souper.direct][1],  souper.y1 - DIRECTION[souper.direct][0], pole);
-            put(hrac, souper.x1 + (DIRECTION[souper.direct][1]) * souper.len,  souper.y1 + (DIRECTION[souper.direct][0]) * souper.len, pole);
+        if (souper.side == ONE) {
+            put(hrac, souper.x1 - DIRECTION[souper.direct][0],  souper.y1 - DIRECTION[souper.direct][1], pole);
+            put(hrac, souper.x1 + (DIRECTION[souper.direct][0]) * souper.len,  souper.y1 + (DIRECTION[souper.direct][1]) * souper.len, pole);
         }
 
         return true;
     }
 
+    if(ja.x1 == -1) {
+        placni_to_tam_nekam(hrac, 10, 10, pole);
+        return true;
+    }
+
     if (ja.side == BOTH) {
-        put(hrac, ja.x1 - DIRECTION[ja.direct][1],  ja.y1 - DIRECTION[ja.direct][0], pole);
+        put(hrac, ja.x1 - DIRECTION[ja.direct][0],  ja.y1 - DIRECTION[ja.direct][1], pole);
     }
 
     if (ja.side == ONE) {
-        put(hrac, ja.x1 - DIRECTION[ja.direct][1],  ja.y1 - DIRECTION[ja.direct][0], pole);
-        put(hrac, ja.x1 + (DIRECTION[ja.direct][1]) * ja.len,  ja.y1 + (DIRECTION[ja.direct][0]) * ja.len, pole);
+        put(hrac, ja.x1 - DIRECTION[ja.direct][0],  ja.y1 - DIRECTION[ja.direct][1], pole);
+        put(hrac, ja.x1 + (DIRECTION[ja.direct][0]) * ja.len,  ja.y1 + (DIRECTION[ja.direct][1]) * ja.len, pole);
     }
     return true;
 }
