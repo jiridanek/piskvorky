@@ -9,8 +9,11 @@
 #include <vector>
 
 #include <cstdlib>
+#include <map>
 
 using std::vector;
+using std::map;
+using std::pair;
 
 //char **to_char_star_star(char pole[20][20]) {
 
@@ -29,6 +32,14 @@ CMoveGenerator::CMoveGenerator(const CBoard &board, char c) :
     m_try_first = strategie_x_get_good_moves(c, p);
 }
 
+bool CMoveGenerator::TryMove(const struct SMove &m) {
+    if (m_tried_moves.find(m) == m_tried_moves.end()) {
+        m_tried_moves.insert(pair<struct SMove, bool>(m, true));
+        return true;
+    }
+    return false;
+}
+
 SMove CMoveGenerator::GetNextMove() {
     if (m_try_first.size() > 0) {
         struct SMove m;
@@ -36,7 +47,8 @@ SMove CMoveGenerator::GetNextMove() {
             m = m_try_first.back();
             m_try_first.pop_back();
             if (m_board.CanGet(m.m_x, m.m_y)
-                    && m_board.Get(m.m_x, m.m_y) == CBoard::EMPTY_POSITION) {
+                    && m_board.Get(m.m_x, m.m_y) == CBoard::EMPTY_POSITION
+                    && this->TryMove(m)) {
                 return m;
             } else if (m_try_first.size() > 0) {
                 continue;
@@ -60,7 +72,9 @@ SMove CMoveGenerator::GetNextMove() {
                 // small improvement - only adjectant positions
                 for (int a=-1; a <= 1; ++a) {
                     for (int b=-1; b<=1; ++b) {
-                        if(m_board.CanGet(x+a, y+b) && m_board.Get(x+a, y+b) != CBoard::EMPTY_POSITION) {
+                        if(m_board.CanGet(x+a, y+b)
+                                && m_board.Get(x+a, y+b) != CBoard::EMPTY_POSITION
+                                && this->TryMove(SMove(x+a, y+b, m_previous_move.m_mark))) {
                             goto found;
                         }
                     }
