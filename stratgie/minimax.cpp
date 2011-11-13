@@ -24,9 +24,9 @@ int DIRECTION2[8][2] = { { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1 }, { -1, 0 }, { -
  smaže předpředchozí vrstvu, zpracuje aktualní, čímž vytvoří novou
  */
 
-int search(CBoard &board, int x, int y, int direction, int skip, char hrac);
+int search(const CBoard &board, int x, int y, int direction, int skip, char hrac);
 
-bool has_n_or_more_in_row(CBoard &board, int n, char hrac) {
+bool has_n_or_more_in_row(const CBoard &board, int n, char hrac) {
     for (int x = 0; x < board.GetWidth(); ++x) {
         for (int y=0; y < board.GetHeight(); ++y) {
             for (int dir=0; dir<4; ++dir) {
@@ -40,7 +40,7 @@ bool has_n_or_more_in_row(CBoard &board, int n, char hrac) {
     return false;
 }
 
-int search_not_player(CBoard &board, int x, int y, int direction, int skip, char hrac) {
+int search_not_player(const CBoard &board, int x, int y, int direction, int skip, char hrac) {
     int sum = 0;
     int newsum = 0;
     do {
@@ -52,7 +52,7 @@ int search_not_player(CBoard &board, int x, int y, int direction, int skip, char
     return sum;
 }
 
-int search(CBoard &board, int x, int y, int direction, int skip, char hrac) {
+int search(const CBoard &board, int x, int y, int direction, int skip, char hrac) {
     char cnt = 0;
     int dx = DIRECTION2[direction][0];
     int dy = DIRECTION2[direction][1];
@@ -70,7 +70,7 @@ int search(CBoard &board, int x, int y, int direction, int skip, char hrac) {
     return cnt;
 }
 
-long long evaluate(CBoard &board, char hrac) {
+long long evaluate(const CBoard &board, char hrac) {
     long long sum = 0;
     // free, one side free, cannot make 5
     const int points[6][3] = {

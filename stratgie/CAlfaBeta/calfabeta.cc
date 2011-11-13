@@ -8,7 +8,7 @@
 
 //#include <cstdint>
 
-#define DEBUG_P
+//#define DEBUG_P
 
 using std::max;
 using std::cerr;
@@ -38,11 +38,12 @@ long long CAlfaBeta::AlfaBeta(CBoard &board, long long alfa, long long beta, lon
 //                    cerr << endl;
 #endif
         int new_max;
-        if(has_n_or_more_in_row(board, 5, hrac)) {
-            new_max = -AlfaBeta(board, -beta, -alfa, depth-1, get_other_player(hrac));
+        if(has_n_or_more_in_row(board, 5, hrac)){
+            new_max = evaluate(board, hrac);
         } else {
-            return evaluate(board, hrac) - evaluate(board, get_other_player(hrac));
+            new_max = -AlfaBeta(board, -beta, -alfa, depth-1, get_other_player(hrac));
         }
+
         if (alfa < new_max) {
             alfa = new_max;
 

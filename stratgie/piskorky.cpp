@@ -1,16 +1,8 @@
+#include "piskorky.h"
 
-//                       -->                                      <--                     
-int DIRECTION[][2] = { { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1 }/*, { -1, 0 }, { -1, -1 }, { 0, -1 }, { 1, -1 } */ };
+int DIRECTION[8][2] = { { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1 }, { -1, 0 }, { -1, -1 }, { 0, -1 }, { 1, -1 }};
 
-enum sides {NONE = 0, ONE = 1, BOTH = 2};
-
-struct block {
-	int x1;
-	int y1;
-	int len;
-	int direct;
-	enum sides side;
-};
+//                       -->                                      <--
 
 void end_position(struct block *block, const char pole[20][20], int direct, int *len)
 {
