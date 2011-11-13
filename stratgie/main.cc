@@ -40,6 +40,7 @@ int main() {
     struct SMove highest_m = ab.GetBestMove();
     int highest = ab.GetBestScore();
 //    cout << highest << " " << highest_m.m_x << " " << highest_m.m_y << endl;
+//    cout << "score for opponent " << evaluate()
 
     cout << other << endl;
     CBoard(board, highest_m).Print();
