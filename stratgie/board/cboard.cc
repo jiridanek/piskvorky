@@ -22,7 +22,16 @@ CBoard::CBoard(int size_x, int size_y, char **board) :
     m_board = board;
 }
 
-CBoard::CBoard(const CBoard &other) {}
+CBoard::CBoard(const CBoard &other) :
+        m_size_x(other.m_size_x), m_size_y(other.m_size_y) {
+    m_board = new char*[m_size_x];
+    for (int x=0; x<m_size_x; ++x) {
+        m_board[x] = new char[m_size_y];
+        for (int y=0; y<m_size_y; ++y) {
+            m_board[x][y] = other.m_board[x][y];
+        }
+    }
+}
 
 CBoard::CBoard(CBoard &board, struct SMove move) :
          m_size_x(board.GetWidth()), m_size_y(board.GetHeight()){

@@ -33,51 +33,48 @@ int put(char znacka, int x, int y, char pole[20][20]){
 
 vector<struct SMove> strategie_x_get_good_moves(char hrac, char pole[20][20]) {
     vector<struct SMove> ret;
+    vector<struct SMove> ret_utok;
+    vector<struct SMove> ret_obrana;
     ret.reserve(5);
+    ret_utok.reserve(5);
+    ret_obrana.reserve(2);
 
     struct block souper = find_longest(get_other_player(hrac), pole);
     struct block ja = find_longest(hrac, pole);
 
-    if (ja.len >= souper.len && ja.len != 0) {
-            int x = ja.x1 - DIRECTION[ja.direct][0];
-            int y = ja.y1 - DIRECTION[ja.direct][1];
-            ret.push_back((struct SMove) SMove(x, y, hrac));
-            //put(hrac, ja.x1 - DIRECTION[ja.direct][0],  ja.y1 - DIRECTION[ja.direct][1], pole);
-            x = ja.x1 + (DIRECTION[ja.direct][0]) * ja.len;
-            y = ja.y1 + (DIRECTION[ja.direct][1]) * ja.len;
-            ret.push_back((struct SMove) SMove(x, y, hrac));
-            //put(hrac, ja.x1 + (DIRECTION[ja.direct][0]) * ja.len,  ja.y1 + (DIRECTION[ja.direct][1]) * ja.len, pole);
+    int x;
+    int y;
 
-        return ret;
-    }
-
-    if (souper.len >= 3) {
-            int x = souper.x1 - DIRECTION[souper.direct][0];
-            int y = souper.y1 - DIRECTION[souper.direct][1];
-            ret.push_back((struct SMove) SMove(x, y, hrac));
-            //put(hrac, souper.x1 - DIRECTION[souper.direct][0],  souper.y1 - DIRECTION[souper.direct][1], pole);
-            x = souper.x1 + (DIRECTION[souper.direct][0]) * souper.len;
-            y = souper.y1 + (DIRECTION[souper.direct][1]) * souper.len;
-            ret.push_back((struct SMove) SMove(x, y, hrac));
-            //put(hrac, souper.x1 + (DIRECTION[souper.direct][0]) * souper.len,  souper.y1 + (DIRECTION[souper.direct][1]) * souper.len, pole);
-
-        return ret;
-    }
-
-    if(ja.x1 == -1) {
-
-        //placni_to_tam_nekam(hrac, 10, 10, pole);
-        return ret;
-    }
-
-        int x = ja.x1 - DIRECTION[ja.direct][0];
-        int y = ja.y1 - DIRECTION[ja.direct][1];
-        ret.push_back((struct SMove) SMove(x, y, hrac));
+        // utok
+    if(ja.x1 != -1) {
+       x = ja.x1 - DIRECTION[ja.direct][0];
+       y = ja.y1 - DIRECTION[ja.direct][1];
+        ret_utok.push_back((struct SMove) SMove(x, y, hrac));
         //put(hrac, ja.x1 - DIRECTION[ja.direct][0],  ja.y1 - DIRECTION[ja.direct][1], pole);
         x = ja.x1 + (DIRECTION[ja.direct][0]) * ja.len;
         y = ja.y1 + (DIRECTION[ja.direct][1]) * ja.len;
-        ret.push_back((struct SMove) SMove(x, y, hrac));
+        ret_utok.push_back((struct SMove) SMove(x, y, hrac));
         //put(hrac, ja.x1 + (DIRECTION[ja.direct][0]) * ja.len,  ja.y1 + (DIRECTION[ja.direct][1]) * ja.len, pole);
+    }
+    if(souper.x1 != -1) {
+        //obrana
+        x = souper.x1 - DIRECTION[souper.direct][0];
+        y = souper.y1 - DIRECTION[souper.direct][1];
+        ret_obrana.push_back((struct SMove) SMove(x, y, hrac));
+        //put(hrac, souper.x1 - DIRECTION[souper.direct][0],  souper.y1 - DIRECTION[souper.direct][1], pole);
+        x = souper.x1 + (DIRECTION[souper.direct][0]) * souper.len;
+        y = souper.y1 + (DIRECTION[souper.direct][1]) * souper.len;
+        ret_obrana.push_back((struct SMove) SMove(x, y, hrac));
+        //put(hrac, souper.x1 + (DIRECTION[souper.direct][0]) * souper.len,  souper.y1 + (DIRECTION[souper.direct][1]) * souper.len, pole);
+    }
+
+    if (souper.len >= 3) {
+        ret.insert(ret.end(), ret_obrana.begin(), ret_obrana.end());
+        ret.insert(ret.end(), ret_utok.begin(), ret_utok.end());
+    } else {
+        ret.insert(ret.end(), ret_utok.begin(), ret_utok.end());
+        ret.insert(ret.end(), ret_obrana.begin(), ret_obrana.end());
+    }
     return ret;
 }
 

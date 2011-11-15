@@ -18,11 +18,11 @@ private:
     char **m_board;
     int m_size_x;
     int m_size_y;
-    CBoard(const CBoard &other);
 public:
     CBoard(int size_x, int size_y);
     CBoard(int size_x, int size_y, char **board);
     CBoard(CBoard &board, struct SMove move);
+    CBoard(const CBoard &other);
     ~CBoard();
     void InitBoard(int size_x, int size_y, char c);
     void ComputeWeights();

@@ -33,6 +33,9 @@ CMoveGenerator::CMoveGenerator(const CBoard &board, char c) :
 }
 
 bool CMoveGenerator::TryMove(const struct SMove &m) {
+    //FIXME: Pomaha nebo skodi?
+    // zda se, ze kdyz skodi, tak malo, a kdyz pomuze, tak hodne; nechat
+    //return true;
     if (m_tried_moves.find(m) == m_tried_moves.end()) {
         m_tried_moves.insert(pair<struct SMove, bool>(m, true));
         return true;
@@ -69,12 +72,14 @@ SMove CMoveGenerator::GetNextMove() {
     for (; y < m_board.GetHeight(); ++y) {
         for (; x < m_board.GetWidth(); ++x) {
             if (m_board.Get(x, y) == CBoard::EMPTY_POSITION) {
+                if(! this->TryMove(SMove(x, y, m_previous_move.m_mark))) {
+                    continue;
+                }
                 // small improvement - only adjectant positions
                 for (int a=-1; a <= 1; ++a) {
                     for (int b=-1; b<=1; ++b) {
                         if(m_board.CanGet(x+a, y+b)
-                                && m_board.Get(x+a, y+b) != CBoard::EMPTY_POSITION
-                                && this->TryMove(SMove(x+a, y+b, m_previous_move.m_mark))) {
+                                && m_board.Get(x+a, y+b) != CBoard::EMPTY_POSITION) {
                             goto found;
                         }
                     }

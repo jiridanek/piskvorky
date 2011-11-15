@@ -70,11 +70,12 @@ int search(const CBoard &board, int x, int y, int direction, int skip, char hrac
     return cnt;
 }
 
+//FIXME: zlepsit tuhle fci, hodnoti divne
 long long evaluate(const CBoard &board, char hrac) {
     long long sum = 0;
     // free, one side free, cannot make 5
     const int points[6][3] = {
-        {0,0,0}, {1,1,1}, {100,50,5}, {100000,200,1}, {5000000, 1000000, 300}, {10000000, 10000000, 10000000}
+        {0,0,0}, {1,1,1}, {100,50,5}, {100000,200,1}, {50000000, 10000000, 300}, {10000000, 10000000, 10000000}
     };
     for (int x = 0; x < board.GetWidth(); ++x) {
         for (int y=0; y < board.GetHeight(); ++y) {
