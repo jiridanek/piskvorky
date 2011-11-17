@@ -46,8 +46,8 @@ while ($res eq '-') {
     my $podvodnik = undef;
     my $num = @$diffs;
 
-    if(@$diffs != 1) {
-    	$podvodnik = "Hrac $hrac_s[$h] podvadi:\n";
+    if(@$diffs > 1) {
+    	$podvodnik = "Hrac $hrac_s[$h] hraje vicekrat:\n";
     }
     
     $new_board->pretty_print($diffs->[0]);
