@@ -114,7 +114,7 @@ long long evaluate(const CBoard &board, char hrac) {
  normální rekurzivní verze
  */
 int minimax(char hrac, CBoard &board, int depth) {
-    char MAX = 'X';
+    //char MAX = 'X';
     //char MIN = 'O';
 
     char other_player = get_other_player(hrac);

@@ -10,7 +10,7 @@
 #include "minimax.h"
 #include "func.h"
 #include "minimax.cpp"
-#include "CAlfaBeta/calfabeta.h"
+#include "calfabeta.h"
 
 using std::cout;
 using std::cerr;
@@ -29,7 +29,7 @@ void print_results() {
     CAlfaBeta *ab = CAlfaBeta::Get();
     char other = get_other_player(ab->GetPlayer());
     struct SMove highest_m = ab->GetBestMove();
-    int highest = ab->GetBestScore();
+//    int highest = ab->GetBestScore();
 //    cerr << highest << " " << highest_m.m_x << " " << highest_m.m_y << endl;
 
     cout << other << endl;
@@ -85,8 +85,8 @@ int main() {
     //another copy
     starting_board = new CBoard(board);
 
-    int depth = 5;
-    char other = get_other_player(hrac);
+//    int depth = 5;
+//    char other = get_other_player(hrac);
 
    // cout << evaluate(board, hrac) << endl;
    // cout << evaluate(board, other) << endl;

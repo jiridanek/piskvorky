@@ -3,6 +3,7 @@
 
 #include "board/cboard.h"
 
+int minimax(char hrac, CBoard &board, int depth);
 int search(const CBoard &board, int x, int y, int direction, int skip, char hrac);
 int search_not_player(const CBoard &board, int x, int y, int direction, int skip, char hrac);
 int search(const CBoard &board, int x, int y, int direction, int skip, char hrac);

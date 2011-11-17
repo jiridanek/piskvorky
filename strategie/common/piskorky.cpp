@@ -21,7 +21,7 @@ void end_position(struct block *block, const char pole[20][20], int direct, int 
 
 void find_direction(struct block *block, const char pole[20][20])
 {
-        char c = pole[block->x1][block->y1];
+        //char c = pole[block->x1][block->y1];
         for(int direct = 0; direct < 4; direct++)
 	{
 		int len = 1;
