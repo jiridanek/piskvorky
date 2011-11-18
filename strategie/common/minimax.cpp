@@ -70,13 +70,65 @@ int search(const CBoard &board, int x, int y, int direction, int skip, char hrac
     return cnt;
 }
 
-//FIXME: zlepsit tuhle fci, hodnoti divne
-long long evaluate(const CBoard &board, char hrac) {
+const long long natahu_points[6][3] = {
+    {0,0,0}, {1,1,1}, {200,100,5}, {1000,500,10}, {2000, 1500, 30}, {1000000, 1000000, 1000000}
+};
+
+// má tohle v alfabetě smysl?
+const long long nenatahu_points[6][3] = {
+    {0,0,0}, {1,1,1}, {200,100,5}, {1000,250,10}, {2000, 650, 300}, {1000000, 1000000, 1000000}
+};
+
+// give different weights according to who plays
+long long evaluate_both_sides(const CBoard &board, char hrac, char natahu) {
+    char souper = get_other_player(hrac);
+    if (hrac == natahu) {
+        return evaluateLL(board, hrac, natahu_points) - evaluateLL(board, souper, nenatahu_points);
+    } else {
+        return evaluateLL(board, hrac, nenatahu_points) - evaluateLL(board, souper, natahu_points);
+    }
+}
+
+long long evaluateLL(const CBoard &board, char hrac, const long long points[6][3]) {
     long long sum = 0;
     // free, one side free, cannot make 5
-    const int points[6][3] = {
-        {0,0,0}, {1,1,1}, {100,50,5}, {100000,200,1}, {50000000, 10000000, 300}, {10000000, 10000000, 10000000}
-    };
+    for (int x = 0; x < board.GetWidth(); ++x) {
+        for (int y=0; y < board.GetHeight(); ++y) {
+            for (int dir=0; dir<4; ++dir) {
+
+                int opposite_dir = (dir + 4) % 8;
+                int op_count = search(board, x, y, opposite_dir, 0, hrac);
+                if (op_count != 1) {
+                    continue;
+                }
+
+                int op_free_count = search_not_player(board, x, y, opposite_dir, op_count, get_other_player(hrac));
+                int count = search(board, x, y, dir, 0, hrac);
+                int free_count = search_not_player(board, x, y, dir, count, get_other_player(hrac));
+                int total_count = op_free_count + free_count + count;
+                int value;
+                if(op_free_count>0 && free_count > 0 && total_count >= 5) {
+                    value = 0;
+                } else if (total_count >= 5) {
+                    value = 1;
+                } else {
+                    value = 2;
+                }
+
+                if (count > 5) {
+                    count = 5;
+                }
+                sum += points[count][value];
+            }
+        }
+    }
+    return sum;
+}
+
+//FIXME: zlepsit tuhle fci, hodnoti divne
+long long evaluate(const CBoard &board, char hrac, const int points[6][3]) {
+    long long sum = 0;
+    // free, one side free, cannot make 5
     for (int x = 0; x < board.GetWidth(); ++x) {
         for (int y=0; y < board.GetHeight(); ++y) {
             for (int dir=0; dir<4; ++dir) {
@@ -120,7 +172,7 @@ int minimax(char hrac, CBoard &board, int depth) {
     char other_player = get_other_player(hrac);
 
     if(depth == 0) {
-        return evaluate(board, hrac) - evaluate(board, get_other_player(hrac));
+        return evaluate(board, hrac, default_points) - evaluate(board, get_other_player(hrac), default_points);
     }
 
     CMoveGenerator mg = board.CreateMoveGenerator(hrac);
