@@ -46,6 +46,7 @@ CAlphaBetaParallel* CAlphaBetaParallel::Get() {
 }
 
 
+
 //pojišťuje si vítězství... někdy zahraje naprosto blbě, utoci misto braneni
 long long CAlphaBetaParallel::AlfaBeta(CBoard &board, long long alfa, long long beta, long long depth, char hrac)
 {
@@ -54,8 +55,9 @@ long long CAlphaBetaParallel::AlfaBeta(CBoard &board, long long alfa, long long 
        /* if (m_depth % 2 == 0) {
             return - evaluate(board, hrac) + evaluate(board, get_other_player(hrac));
         } else {*/
-            char natahu = (m_current_call_depth%2==0)?hrac:get_other_player(hrac);
-            return evaluate_both_sides(board, hrac, natahu);
+            //char natahu = (m_current_call_depth%2==0)?hrac:get_other_player(hrac);
+            // na tahu je vždycky ten hrac, za ktereho se chystam hrat, tj jsem tu delal peknou blbost
+            return evaluate_both_sides(board, hrac, hrac);
 //            long long h_zisk = evaluate(board, hrac, default_points);
 //            long long s_zisk = evaluate(board, get_other_player(hrac), default_points);
 //            long long attack_bonus = (m_current_call_depth%2==1)?-1*(s_zisk/4) : 0;
@@ -79,10 +81,14 @@ long long CAlphaBetaParallel::AlfaBeta(CBoard &board, long long alfa, long long 
 //                    board.Print(cerr);
 //                    cerr << endl;
 #endif
-        int new_max;
+        long long new_max;
+        //cerr << "5_or_" << endl;
         if(has_n_or_more_in_row(board, 5, hrac)){
-            //new_max = evaluate(board, hrac, default_points) * 1000;
-            new_max = -AlfaBeta(board, -beta, -alfa, depth-1, get_other_player(hrac));
+            //ukonci rekurzi, nema smysl pokracovat za konec hry
+            //aby bylo mozno vybrat nejlepsi zpusob jak vyhrat, pokud je jich vic ^_^
+            new_max = 1LL*1000*1000*1000 + evaluate_both_sides(board, hrac, hrac);
+            //cerr << "5_or_more_ for hrac " << hrac << " in depth " << m_current_call_depth << endl;
+            //new_max = -AlfaBeta(board, -beta, -alfa, depth-1, get_other_player(hrac));
         } else {
             new_max = -AlfaBeta(board, -beta, -alfa, depth-1, get_other_player(hrac));
         }
@@ -99,6 +105,7 @@ long long CAlphaBetaParallel::AlfaBeta(CBoard &board, long long alfa, long long 
                 m_best_move[index] = m;
                 m_best_score[index] = new_max;
                 if (m_current_call_depth != m_depth) {
+                    //accept only if the new solution is better than previous?
                     if (m_best_score[index] > m_best_score[index-1]) {
                         m_finished_depths=m_current_call_depth-m_depth;
                     }
@@ -153,6 +160,7 @@ void CAlphaBetaParallel::StartProcessing(char hrac)
         m_current_call_depth = d;
         //CBoard temp(m_board);
         AlfaBeta(m_board, -2LL*1000*1000*1000*1000, 2LL*1000*1000*1000*1000, d, hrac);
+        m_finished_depths=d-m_depth;
         cerr << "Dokoncena uroven " << d << endl;
 //        m_board.Print(cerr);
 //         cerr << GetBestScore() << " " << GetBestMove().m_x << " " << GetBestMove().m_y << endl;

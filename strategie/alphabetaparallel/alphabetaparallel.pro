@@ -1,4 +1,4 @@
-TARGET = alphabeta
+TARGET = alphabetaparallel
 SOURCES = main.cc
 INCLUDEPATH += ../common
 LIBS += -L../common -lcommon -lrt

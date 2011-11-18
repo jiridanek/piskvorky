@@ -5,3 +5,5 @@ LIBS += -L../common -lcommon
 
 CONFIG +=link_pkgconfig
 PKGCONFIG = unittest++
+
+include(../flags.pri)

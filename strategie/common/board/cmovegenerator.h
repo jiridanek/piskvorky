@@ -22,6 +22,7 @@ public:
     CMoveGenerator(const CBoard &board, char c);
     struct SMove GetNextMove();
     bool TryMove(const SMove &m);
+    void PrependMove(const SMove &m);
 };
 
 #endif // CMOVEGENERATOR_H

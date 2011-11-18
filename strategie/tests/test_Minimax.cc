@@ -21,8 +21,8 @@ SUITE(test_minimax) {
         int depth = 1;
         char hrac = 'O';
 
-        cout << evaluate(board, 'X') << endl;
-        cout << evaluate(board, hrac) << endl;
+        cout << evaluate(board, 'X', default_points) << endl;
+        cout << evaluate(board, hrac, default_points) << endl;
 
 
         CMoveGenerator mg = board.CreateMoveGenerator('X');

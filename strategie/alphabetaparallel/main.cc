@@ -10,7 +10,7 @@
 #include "minimax.h"
 #include "func.h"
 #include "minimax.cpp"
-#include "alphabeta/calfabeta.h"
+#include "alphabeta/calphabetaparallel.h"
 
 using std::cout;
 using std::cerr;
@@ -26,7 +26,7 @@ void timer_expired(int signo, siginfo_t * siginfo, void * ucontext) {
 }
 
 void print_results() {
-    CAlfaBeta *ab = CAlfaBeta::Get();
+    CAlphaBetaParallel *ab = CAlphaBetaParallel::Get();
     char other = get_other_player(ab->GetPlayer());
     struct SMove highest_m = ab->GetBestMove();
 //    int highest = ab->GetBestScore();
@@ -106,7 +106,7 @@ int main() {
 //        board.UndoMove(m);
 //        m = mg.GetNextMove();
 //    }
-    CAlfaBeta *ab = CAlfaBeta::New(board, 2, signal_number);
+    CAlphaBetaParallel *ab = CAlphaBetaParallel::New(board, 2, signal_number);
     ab->StartProcessing(hrac);
 
 

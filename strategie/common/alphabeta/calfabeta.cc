@@ -50,8 +50,8 @@ long long CAlfaBeta::AlfaBeta(CBoard &board, long long alfa, long long beta, lon
        /* if (m_depth % 2 == 0) {
             return - evaluate(board, hrac) + evaluate(board, get_other_player(hrac));
         } else {*/
-            long long h_zisk = evaluate(board, hrac);
-            long long s_zisk = evaluate(board, get_other_player(hrac));
+            long long h_zisk = evaluate(board, hrac, default_points);
+            long long s_zisk = evaluate(board, get_other_player(hrac), default_points);
             return h_zisk + /*(h_zisk/2)*/ - s_zisk;
         //}
     }
@@ -68,7 +68,7 @@ long long CAlfaBeta::AlfaBeta(CBoard &board, long long alfa, long long beta, lon
 #endif
         int new_max;
         if(has_n_or_more_in_row(board, 5, hrac)){
-            new_max = evaluate(board, hrac) * 1000;
+            new_max = evaluate(board, hrac, default_points) * 1000;
         } else {
             new_max = -AlfaBeta(board, -beta, -alfa, depth-1, get_other_player(hrac));
         }

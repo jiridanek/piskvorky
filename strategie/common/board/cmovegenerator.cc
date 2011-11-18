@@ -100,4 +100,8 @@ SMove CMoveGenerator::GetNextMove() {
         return new_move;
 }
 
+void CMoveGenerator::PrependMove(const SMove &m) {
+    m_try_first.push_back(m);
+}
+
 

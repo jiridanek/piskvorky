@@ -1,11 +1,11 @@
 TEMPLATE = subdirs
-SUBDIRS = common alphabeta strategie_x prvni_volne tests
+SUBDIRS = common alphabetaparallel alphabeta strategie_x prvni_volne tests \
+    alphabetaparallel
 
 prvni_volne.depends = common
 alphabeta.depends = common
+alphabetaparallel.depends = common
 strategie_x.depends = common
 tests.depends = common
 
-QMAKE_CXXFLAGS_DEBUG += -ggdb
-
-QMAKE_CXXFLAGS_RELEASE = -O3
+include(flags.pri)
