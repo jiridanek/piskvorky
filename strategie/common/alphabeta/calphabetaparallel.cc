@@ -41,6 +41,13 @@ CAlphaBetaParallel* CAlphaBetaParallel::New(CBoard &board, int depth, int signal
     return CAlphaBetaParallel::singleton;
 }
 
+void CAlphaBetaParallel::Delete() {
+    if(singleton != NULL) {
+        delete singleton;
+    }
+    return;
+}
+
 CAlphaBetaParallel* CAlphaBetaParallel::Get() {
     return singleton;
 }

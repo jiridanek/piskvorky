@@ -51,6 +51,7 @@ public:
     CBoard& GetBoard();
     char GetPlayer();
     void StartProcessing();
+    void Delete();
 };
 
 #endif // CALPHABETAPARALLEL_H

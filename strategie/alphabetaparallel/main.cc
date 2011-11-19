@@ -115,6 +115,7 @@ int main() {
     while (true) {
         sigsuspend(&sigset);
     }
-
+    delete starting_board;
+    ab->Delete();
     return 0;
 }
