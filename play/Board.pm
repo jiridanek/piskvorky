@@ -68,7 +68,6 @@ sub init_board_from_filedesc {
 	my $board = Board->init_board_empty($x, $y);
 	my $a = 0;
 	my $b = 0;
-	my $na_tahu = <$filedesc>;
 	while (<$filedesc>) {
 		my $line_length = length($_);
 		for(my $i=0; $i<$line_length-1; $i++) {
@@ -130,7 +129,7 @@ sub print {
 }
 
 sub pretty_print {
-	my ($self, $last) = @_;
+	my ($self, $last, $outstream) = @_;
 	
 	my $PRETTY_BOARD_EMPTY = '•';
 	
@@ -144,31 +143,37 @@ sub pretty_print {
 	
 	my $lastx = -1;
 	my $lasty = -1;
+	$outstream = *STDOUT unless defined $outstream;
 	if (defined $last) {
 		 $lastx = $last->[0];
 		 $lasty = $last->[1];
 	}
 	
-
+	print $outstream "  ";
+	for (my $j=0; $j<$self->{WIDTH}; $j++){
+	printf $outstream ("%2s", $j);
+	}
+	print $outstream "\n";
 	for (my $y=0; $y < $self->{HEIGHT}; $y++) {
+		printf $outstream ("%2s ", $y);
 		for (my $x=0; $x<$self->{WIDTH}; $x++){	
 			if ($x == $lastx && $y == $lasty) {
-				print $bold;
+				print $outstream $bold;
 			}
 			my $ch = $self->get($x, $y);
 			$ch = $PRETTY_BOARD_EMPTY if $ch eq $BOARD_EMPTY;
 			if ($ch eq "X")  {
-				print $fmagenta;
+				print $outstream $fmagenta;
 			}
 			if ($ch eq 'O') { 
-				print $fcyan;
+				print $outstream $fcyan;
 			}
 			if ($ch eq $BOARD_EMPTY) {
-				print $fgray;
+				print $outstream $fgray;
 			}
-			print $ch . " " . $reset;
+			print $outstream $ch . " " . $reset;
 		}
-		print("\n");
+		print $outstream "\n";
 	}
 }
 			

@@ -25,6 +25,7 @@ while ($res eq '-') {
     	die "Spatny symbol, ma byt '$hrac_s[$h]', bylo '$turn'\n";
     }
     
+    #my $drop_line = <$fold_board>;
     my $old_board = Board->new(20,20,$fold_board);
     
     my $cmd = "./$hrac[$h] <tmp_plan >tmp_plan2";
@@ -39,6 +40,7 @@ while ($res eq '-') {
     	die "Spatny symbol, ma byt '$op', bylo '$nturn'\n";
     }
     
+    #my $drop_line = <$fnew_board>;
     my $new_board = Board->new(20,20,$fnew_board);
     
     my $diffs = Board->list_diffs($old_board, $new_board);
@@ -53,6 +55,12 @@ while ($res eq '-') {
     $new_board->pretty_print($diffs->[0]);
     
     if (defined $podvodnik) {
+	print $diffs->[0][0];
+    	print $diffs->[0][1] . "\n";
+    		print $diffs->[1][0];
+    	print $diffs->[1][1] . "\n";
+    		print $diffs->[2][0];
+    	print $diffs->[2][1] . "\n";
     	die $podvodnik;
     }
     
