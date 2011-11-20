@@ -12,6 +12,8 @@
 #include "minimax.cpp"
 #include "alphabeta/calphabetaparallel.h"
 
+#include "../prvni_volne/strategie_prvnivolne.cpp"
+
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -29,11 +31,25 @@ void print_results() {
     CAlphaBetaParallel *ab = CAlphaBetaParallel::Get();
     char other = get_other_player(ab->GetPlayer());
     struct SMove highest_m = ab->GetBestMove();
-//    int highest = ab->GetBestScore();
-//    cerr << highest << " " << highest_m.m_x << " " << highest_m.m_y << endl;
-
-    cout << other << endl;
-    CBoard(*starting_board, highest_m).Print();
+    if(! highest_m.Initialized()) {
+        char **yyy = starting_board->LeakM_Board();
+        char xxx[20][20];
+        for (int x=0; x<20; x++) {
+            for (int y=0; y<20; y++) {
+                xxx[x][y] = yyy[x][y];
+            }
+        }
+        strategie_prvnivolne(ab->GetPlayer(), xxx);
+        for (int x=0; x<20; x++) {
+            for (int y=0; y<20; y++) {
+                yyy[x][y] = xxx[x][y];
+            }
+        }
+        CBoard(*starting_board, highest_m).Print();
+    } else {
+        cout << other << endl;
+        CBoard(*starting_board, highest_m).Print();
+    }
 }
 
 int main() {

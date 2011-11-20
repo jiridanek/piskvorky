@@ -10,6 +10,8 @@
 using std::ostream;
 using std::cout;
 
+class CMoveGenerator;
+
 class CBoard
 {
 public:

@@ -79,17 +79,3 @@ void strategie_prvnivolne(char hrac, char pole[20][20]) {
         placni_to_tam_nekam(hrac, 0,0, pole);
     }
 }
-
-
-int main(){
-        srand ( time(NULL) );
-
-    char hrac;
-    char pole[20][20];
-    load_input(&hrac, pole);
-
-    strategie_prvnivolne(hrac, pole);
-
-    printf("%c\n", get_other_player(hrac));
-    vypis_pole(pole);
-}

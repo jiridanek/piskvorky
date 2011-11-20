@@ -12,6 +12,8 @@ class CBoard;
 using std::vector;
 using std::map;
 
+class CBoard;
+
 class CMoveGenerator
 {
     const CBoard &m_board;

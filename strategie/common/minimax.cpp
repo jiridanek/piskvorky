@@ -78,7 +78,7 @@ const long long nenatahu_points[6][3] = {
     {0,0,0}, {1,1,1}, {500,250,5}, {1000,750,10}, {500LL*1000, 100LL*1000, 300}, {100LL*1000*1000, 100LL*1000*1000, 100LL*1000*1000}
 };
 
-// give different weights according to who plays
+// give different weights according to who plays next
 long long evaluate_both_sides(const CBoard &board, char hrac, char natahu) {
     char souper = get_other_player(hrac);
     if (hrac == natahu) {
